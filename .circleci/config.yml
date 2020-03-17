@@ -16,12 +16,10 @@ jobs:
       JVM_OPTS: -Xmx3200m
 
     steps:
-      - checkout:
-          path: ~/chess-clojure
-
+      - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "project.clj" }}
+            - v1-dependencies-{{ checksum "app/project.clj" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
@@ -30,7 +28,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "project.clj" }}
+          key: v1-dependencies-{{ checksum "app/project.clj" }}
 
       - run: ./go test
       - run: ./go build
