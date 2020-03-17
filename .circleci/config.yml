@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/chess-clojure
+    docker:
+      - image: circleci/clojure:lein-2.9.1
+    environment:
+      LEIN_ROOT: nbd
+      JVM_OPTS: -Xmx3200m # limit the maximum heap size to prevent out of memory errors
+    steps:
+      - checkout
+      - restore_cache:
+          key: chess-clojure-{{ checksum "project.clj" }}
+      - run: lein deps
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: chess-clojure-{{ checksum "project.clj" }}
+
+      - run: ./go test
+      - run: ./go build
+      - run: ./go smoketest
+
+      - store_artifacts:
+          path: target/uberjar/chess-clojure.jar
+          destination: uberjar
