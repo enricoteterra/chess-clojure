@@ -12,6 +12,16 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+function goal_dependencies() {
+  cd app && lein deps
+  exit 0
+}
+
+function goal_test() {
+  cd app && lein test
+  exit 0
+}
+
 function goal_build() {
   cd app && lein uberjar
   exit 0
@@ -34,6 +44,8 @@ if type -t "goal_$1" &>/dev/null; then
 else
   echo "Usage: $0 <goal>
 goal:
+    dependencies -- install app dependencies
+    test         -- run unit tests
     build        -- create jar
     smoketest    -- check that jar works
 "
