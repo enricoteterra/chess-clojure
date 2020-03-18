@@ -1,7 +1,9 @@
 (ns chess-clojure.core
   (:gen-class))
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
+(defn -main []
+  (case (read-line)
+    "q" nil
+    ; "a" (do (println "got a") (recur))
+    ; "b" (do (println "got b") (recur))
+    (do (println "Usage:\r\n q to end game\r\n") (recur))))
